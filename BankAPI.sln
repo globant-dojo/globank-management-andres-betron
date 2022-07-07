@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAPI", "BankAPI\BankAPI.csproj", "{BBC8FA5F-44DA-4B82-848E-AB6454D888EB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAPI.Models", "BankAPI.Models\BankAPI.Models.csproj", "{85BC3349-F451-4614-A533-799279746920}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAPI.Tests", "BankAPI.Tests\BankAPI.Tests.csproj", "{A4BADE0C-1CDF-4A34-A461-20DB22719351}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAPI.Tests", "BankAPI.Tests\BankAPI.Tests.csproj", "{A4BADE0C-1CDF-4A34-A461-20DB22719351}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAPI.DataAccess", "BankAPI.DataAccess\BankAPI.DataAccess.csproj", "{F5D64AB4-8B37-4202-8C85-57D9607FC67B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAPI.DataAccess", "BankAPI.DataAccess\BankAPI.DataAccess.csproj", "{F5D64AB4-8B37-4202-8C85-57D9607FC67B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAPICore", "BankAPICore\BankAPICore.csproj", "{6B63D182-8C88-473A-A068-81A3A3FCA72D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BBC8FA5F-44DA-4B82-848E-AB6454D888EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BBC8FA5F-44DA-4B82-848E-AB6454D888EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BBC8FA5F-44DA-4B82-848E-AB6454D888EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BBC8FA5F-44DA-4B82-848E-AB6454D888EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{85BC3349-F451-4614-A533-799279746920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{85BC3349-F451-4614-A533-799279746920}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85BC3349-F451-4614-A533-799279746920}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{F5D64AB4-8B37-4202-8C85-57D9607FC67B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5D64AB4-8B37-4202-8C85-57D9607FC67B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5D64AB4-8B37-4202-8C85-57D9607FC67B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B63D182-8C88-473A-A068-81A3A3FCA72D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B63D182-8C88-473A-A068-81A3A3FCA72D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B63D182-8C88-473A-A068-81A3A3FCA72D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B63D182-8C88-473A-A068-81A3A3FCA72D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

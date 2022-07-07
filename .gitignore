@@ -8,3 +8,9 @@
 /BankAPI.DataAccess/obj
 /BankAPI.Models/obj
 /BankAPI.Tests/obj
+/BankAPI/bin/Debug/net5.0
+/BankAPI.DataAccess/bin/Debug
+/BankAPI.Models/bin/Debug
+/BankAPI.Tests/bin/Debug
+/BankAPICore/bin/Debug/net6.0
+/BankAPICore/obj
