@@ -3,3 +3,8 @@
 ################################################################################
 
 /.vs/BankAPI/DesignTimeBuild/.dtbcache.v2
+/.vs
+/BankAPI/obj
+/BankAPI.DataAccess/obj
+/BankAPI.Models/obj
+/BankAPI.Tests/obj
