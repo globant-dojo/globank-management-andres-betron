@@ -24,5 +24,20 @@ namespace BankAPICore.Data
             await _unitOfWork.CompleteAsync();
             return true;
         }
+
+        public async Task<bool> UpdateCuenta(Cuenta cuenta)
+        {
+            _unitOfWork.CuentaRepository.Update(cuenta);
+            await _unitOfWork.CompleteAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteCuenta(Cuenta cuenta)
+        {
+            cuenta.Estado = 0;
+            _unitOfWork.CuentaRepository.Update(cuenta);
+            await _unitOfWork.CompleteAsync();
+            return true;
+        }
     }
 }
