@@ -1,5 +1,6 @@
 ﻿using BankAPI.DataAccess;
 using BankAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankAPICore.Data
 {
@@ -12,22 +13,26 @@ namespace BankAPICore.Data
             _contextCreator = contextCreator;
         }
 
-        public Cliente DeleteCliente(int ClienteId)
+        public Cliente DeleteCliente(int idCliente)
         {
             throw new NotImplementedException();
         }
 
-        public Cliente? GetCliente(int ClienteId)
+        public async Task<Cliente?> GetCliente(int idCliente)
         {
-            using(var context = _contextCreator())
+            using (var context = _contextCreator())
             {
-                return context.Clientes.Where(x=>x.IdCliente == ClienteId).FirstOrDefault();
+                return await context.Clientes.AsNoTracking().Where(x => x.IdCliente == idCliente).FirstOrDefaultAsync();
             }
         }
 
-        public Cliente InsertCliente(Cliente cliente)
+        public async Task<bool> InsertCliente(Cliente cliente)
         {
-            throw new NotImplementedException();
+            using (var context = _contextCreator())
+            {
+                await context.Clientes.AddAsync(cliente);
+                return true;
+            }
         }
 
         public Cliente UpdateCliente(Cliente cliente)

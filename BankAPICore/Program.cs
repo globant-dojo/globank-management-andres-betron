@@ -12,9 +12,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<BankDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("BankConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("BankConnection")));
 
-builder.Services.AddScoped<IClienteDataService, ClienteDataService>();
+ConfigureServices(builder.Services);
+
 
 var app = builder.Build();
 
@@ -38,3 +39,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void ConfigureServices(IServiceCollection services)
+{
+    services.AddScoped<IClienteDataService, ClienteDataService>();
+    services.AddScoped<IPersonaDataService, PersonaDataService>();
+}

@@ -8,51 +8,67 @@ namespace BankAPICore.Controllers.Clients
     [Route("[controller]")]
     public class ClienteController : ControllerBase
     {
-        private readonly ILogger<ClienteController> _logger;
         private readonly IClienteDataService _clienteDataService;
+        private readonly IPersonaDataService _personaDataService;
 
-        public ClienteController()//ILogger<ClienteController> logger,
-            //IClienteDataService clienteDataService)
+        public ClienteController(IClienteDataService clienteDataService,
+            IPersonaDataService personaDataService)
         {
-            //_logger = logger;
-            //_clienteDataService = clienteDataService;
+            _clienteDataService = clienteDataService;
+            _personaDataService = personaDataService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int idCliente)
         {
             try
             {
-                return null;
-                //var cliente = _clienteDataService.GetCliente(0);
-                //if (cliente == null)
-                //    return NotFound();
+                var cliente = await _clienteDataService.GetCliente(idCliente);
+                if (cliente == null ||
+                   string.IsNullOrEmpty(cliente.Contraseña) ||
+                   string.IsNullOrWhiteSpace(cliente.Contraseña))
+                    return NotFound();
 
-                //return Ok(cliente);
+                return Ok(cliente);
             }
             catch (CustomException customException)
             {
                 return StatusCode(customException.ErrorCode, customException.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(501, "Unhandled Exception");
             }
         }
 
         [HttpPost]
-        public IActionResult Post(Cliente clienteNuevo)
+        public async Task<IActionResult> Post(Cliente clienteNuevo)
         {
             try
             {
-                var cliente = _clienteDataService.InsertCliente(clienteNuevo);
-                return Ok();
+
+                var existingPersona = await _personaDataService.GetPersona(clienteNuevo.IdPersona);
+                var insertedPersona = false;
+                if (existingPersona != null &&
+                   !string.IsNullOrEmpty(existingPersona.Nombre))
+                    insertedPersona = _personaDataService.UpdatePersona(clienteNuevo.Persona);
+                else
+                    insertedPersona = await _personaDataService.InsertPersona(clienteNuevo.Persona);
+
+                if (!insertedPersona)
+                    return BadRequest("La persona no pudo ser insertada.");
+
+                var clienteInsertado = await _clienteDataService.InsertCliente(clienteNuevo);
+                if (clienteInsertado == false)
+                    return BadRequest("El cliente no puedo ser insertado.");
+
+                return Ok(clienteInsertado);
             }
-            catch(CustomException customException)
+            catch (CustomException customException)
             {
                 return StatusCode(customException.ErrorCode, customException.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(501, "Unhandled Exception");
             }
@@ -72,7 +88,7 @@ namespace BankAPICore.Controllers.Clients
             {
                 return StatusCode(customException.ErrorCode, customException.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(501, "Unhandled Exception");
             }
@@ -93,7 +109,7 @@ namespace BankAPICore.Controllers.Clients
             {
                 return StatusCode(customException.ErrorCode, customException.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(501, "Unhandled Exception");
             }
