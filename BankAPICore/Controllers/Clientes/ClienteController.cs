@@ -11,23 +11,24 @@ namespace BankAPICore.Controllers.Clients
         private readonly ILogger<ClienteController> _logger;
         private readonly IClienteDataService _clienteDataService;
 
-        public ClienteController(ILogger<ClienteController> logger,
-            IClienteDataService clienteDataService)
+        public ClienteController()//ILogger<ClienteController> logger,
+            //IClienteDataService clienteDataService)
         {
-            _logger = logger;
-            _clienteDataService = clienteDataService;
+            //_logger = logger;
+            //_clienteDataService = clienteDataService;
         }
 
         [HttpGet]
-        public IActionResult Get(int idCliente)
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var cliente = _clienteDataService.GetCliente(idCliente);
-                if (cliente == null)
-                    return NotFound();
+                return null;
+                //var cliente = _clienteDataService.GetCliente(0);
+                //if (cliente == null)
+                //    return NotFound();
 
-                return Ok(cliente);
+                //return Ok(cliente);
             }
             catch (CustomException customException)
             {

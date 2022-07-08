@@ -1,17 +1,28 @@
-﻿using BankAPI.Models;
+﻿using BankAPI.DataAccess;
+using BankAPI.Models;
 
 namespace BankAPICore.Data
 {
     public class ClienteDataService : IClienteDataService
     {
+        private Func<BankDbContext> _contextCreator;
+
+        public ClienteDataService(Func<BankDbContext> contextCreator)
+        {
+            _contextCreator = contextCreator;
+        }
+
         public Cliente DeleteCliente(int ClienteId)
         {
             throw new NotImplementedException();
         }
 
-        public Cliente GetCliente(int ClienteId)
+        public Cliente? GetCliente(int ClienteId)
         {
-            throw new NotImplementedException();
+            using(var context = _contextCreator())
+            {
+                return context.Clientes.Where(x=>x.IdCliente == ClienteId).FirstOrDefault();
+            }
         }
 
         public Cliente InsertCliente(Cliente cliente)

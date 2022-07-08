@@ -6,7 +6,7 @@ namespace BankAPICore.Data
     {
         Cliente DeleteCliente(int ClienteId);
 
-        Cliente GetCliente(int ClienteId);
+        Cliente? GetCliente(int ClienteId);
 
         Cliente InsertCliente(Cliente cliente);
 
