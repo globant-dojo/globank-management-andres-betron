@@ -163,7 +163,7 @@ namespace BankAPI.Tests
             _personaDataServiceMock.Setup(x => x.GetPersona(_cliente.IdPersona))
                 .ReturnsAsync(_persona);
             _personaDataServiceMock.Setup(x => x.UpdatePersona(_cliente.Persona))
-                .Returns(true);
+                .ReturnsAsync(true);
 
             //Act
             var result = (OkObjectResult)await _clienteController.Post(_cliente);

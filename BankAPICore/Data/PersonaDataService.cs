@@ -1,4 +1,5 @@
 ﻿using BankAPI.DataAccess.Data;
+using BankAPI.DataAccess.IConfiguration;
 using BankAPI.Models;
 using BankAPICore.IData;
 using Microsoft.EntityFrameworkCore;
@@ -7,37 +8,30 @@ namespace BankAPICore.Data
 {
     public class PersonaDataService : IPersonaDataService
     {
-        private Func<BankDbContext> _contextCreator;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PersonaDataService(Func<BankDbContext> contextCreator)
+        public PersonaDataService(IUnitOfWork unitOfWork)
         {
-            _contextCreator = contextCreator;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Persona?> GetPersona(int idPersona)
         {
-            using (var context = _contextCreator())
-            {
-                return await context.Personas.AsNoTracking().Where(x => x.IdPersona == idPersona).FirstOrDefaultAsync();
-            }
+            return await _unitOfWork.PersonaRepository.GetById(idPersona);
         }
 
         public async Task<bool> InsertPersona(Persona persona)
         {
-            using (var context = _contextCreator())
-            {
-                await context.Personas.AddAsync(persona);
-                return true;
-            }
+            await _unitOfWork.PersonaRepository.Add(persona);
+            await _unitOfWork.CompleteAsync();
+            return true;
         }
 
-        public bool UpdatePersona(Persona persona)
+        public async Task<bool> UpdatePersona(Persona persona)
         {
-            using (var context = _contextCreator())
-            {
-                context.Personas.Update(persona);
-                return true;
-            }
+            _unitOfWork.PersonaRepository.Update(persona);
+            await _unitOfWork.CompleteAsync();
+            return true;
         }
     }
 }

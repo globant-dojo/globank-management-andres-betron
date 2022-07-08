@@ -50,7 +50,7 @@ namespace BankAPICore.Controllers.Clients
                 var insertedPersona = false;
                 if (existingPersona != null &&
                    !string.IsNullOrEmpty(existingPersona.Nombre))
-                    insertedPersona = _personaDataService.UpdatePersona(clienteNuevo.Persona);
+                    insertedPersona = await _personaDataService.UpdatePersona(clienteNuevo.Persona);
                 else
                     insertedPersona = await _personaDataService.InsertPersona(clienteNuevo.Persona);
 

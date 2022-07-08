@@ -15,12 +15,14 @@ namespace BankAPICore.Data
 
         public async Task<Cuenta> GetCuenta(int idCuenta)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.CuentaRepository.GetById(idCuenta);
         }
 
         public async Task<bool> AddCuenta(Cuenta cuenta)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.CuentaRepository.Add(cuenta);
+            await _unitOfWork.CompleteAsync();
+            return true;
         }
     }
 }

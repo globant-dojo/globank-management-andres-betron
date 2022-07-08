@@ -4,10 +4,9 @@ using BankAPI.Models;
 
 namespace BankAPI.DataAccess.Repositories
 {
-    public class ClienteRepository : GenericRepository<Cliente>, IClienteRepository
+    public class CuentaRepository : GenericRepository<Cuenta>, ICuentaRepository
     {
-        public ClienteRepository(BankDbContext context)
-            : base(context)
+        public CuentaRepository(BankDbContext context) : base(context)
         {
         }
     }

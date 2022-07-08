@@ -6,6 +6,6 @@ namespace BankAPICore.IData
     {
         Task<Persona?> GetPersona(int idPersona);
         Task<bool> InsertPersona(Persona persona);
-        bool UpdatePersona(Persona persona);
+        Task<bool> UpdatePersona(Persona persona);
     }
 }
