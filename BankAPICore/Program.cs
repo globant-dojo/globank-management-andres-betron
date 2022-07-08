@@ -1,4 +1,5 @@
 using BankAPI.DataAccess;
+using BankAPICore.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,9 +14,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BankDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BankConnection")));
 
+builder.Services.AddScoped<IClienteDataService, ClienteDataService>();
+
 var app = builder.Build();
 
-//using(var scope = app.Services.CreateScope())
+//using (var scope = app.Services.CreateScope())
 //{
 //    var context = scope.ServiceProvider.GetRequiredService<BankDbContext>();
 //    context.Database.Migrate();

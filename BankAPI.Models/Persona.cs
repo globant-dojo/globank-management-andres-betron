@@ -8,6 +8,7 @@ namespace BankAPI.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdPersona { get; set; }
+        [Required]
         public string Nombre { get; set; }
         public string Genero { get; set; }
         public int Edad { get; set; }
