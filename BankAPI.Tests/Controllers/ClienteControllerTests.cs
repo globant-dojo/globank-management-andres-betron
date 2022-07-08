@@ -1,6 +1,6 @@
 ﻿using BankAPI.Models;
 using BankAPICore.Controllers.Clients;
-using BankAPICore.Data;
+using BankAPICore.IData;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -261,7 +261,7 @@ namespace BankAPI.Tests
             _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
                 .ReturnsAsync(_cliente);
             _clienteDataServiceMock.Setup(x => x.UpdateCliente(_cliente))
-                .Returns(true);
+                .ReturnsAsync(true);
 
             //Act
             var result = (OkObjectResult)await _clienteController.Put(_cliente);
@@ -277,7 +277,7 @@ namespace BankAPI.Tests
             _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
                 .ReturnsAsync(_cliente);
             _clienteDataServiceMock.Setup(x => x.UpdateCliente(_cliente))
-                .Returns(true);
+                .ReturnsAsync(true);
 
             //Act
             var result = (OkObjectResult)await _clienteController.Put(_cliente);
@@ -298,7 +298,7 @@ namespace BankAPI.Tests
             _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
                 .ReturnsAsync(_cliente);
             _clienteDataServiceMock.Setup(x => x.UpdateCliente(_cliente))
-                .Returns(true);
+                .ReturnsAsync(true);
 
             //Act
             var result = await _clienteController.Put(_cliente);
@@ -336,7 +336,7 @@ namespace BankAPI.Tests
             _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
                 .ReturnsAsync(_cliente);
             _clienteDataServiceMock.Setup(x => x.DeleteCliente(_cliente))
-                .Returns(true);
+                .ReturnsAsync(true);
 
             //Act
             var result = (OkObjectResult)await _clienteController.Delete(_cliente);
@@ -352,7 +352,7 @@ namespace BankAPI.Tests
             _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
                 .ReturnsAsync(_cliente);
             _clienteDataServiceMock.Setup(x => x.DeleteCliente(_cliente))
-                .Returns(true);
+                .ReturnsAsync(true);
 
             //Act
             var result = (OkObjectResult)await _clienteController.Delete(_cliente);
@@ -373,7 +373,7 @@ namespace BankAPI.Tests
             _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
                 .ReturnsAsync(_cliente);
             _clienteDataServiceMock.Setup(x => x.DeleteCliente(_cliente))
-                .Returns(true);
+                .ReturnsAsync(true);
 
             //Act
             var result = await _clienteController.Delete(_cliente);

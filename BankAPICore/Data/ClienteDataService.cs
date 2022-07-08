@@ -1,52 +1,45 @@
 ﻿using BankAPI.DataAccess;
+using BankAPI.DataAccess.IConfiguration;
+using BankAPI.DataAccess.IRepositories;
 using BankAPI.Models;
+using BankAPICore.IData;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankAPICore.Data
 {
     public class ClienteDataService : IClienteDataService
     {
-        private Func<BankDbContext> _contextCreator;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ClienteDataService(Func<BankDbContext> contextCreator)
+        public ClienteDataService(IUnitOfWork unitOfWork)
         {
-            _contextCreator = contextCreator;
+            _unitOfWork = unitOfWork;
         }
 
-        public bool DeleteCliente(Cliente cliente)
+        public async Task<bool> DeleteCliente(Cliente cliente)
         {
-            using (var context = _contextCreator())
-            {
-                cliente.Estado = 0;
-                context.Clientes.Update(cliente);
-                return true;
-            }
+            cliente.Estado = 0;
+            _unitOfWork.ClienteRepository.Update(cliente);
+            await _unitOfWork.CompleteAsync();
+            return true;
         }
 
         public async Task<Cliente?> GetCliente(int idCliente)
         {
-            using (var context = _contextCreator())
-            {
-                return await context.Clientes.AsNoTracking().Where(x => x.IdCliente == idCliente).FirstOrDefaultAsync();
-            }
+            return await _unitOfWork.ClienteRepository.GetById(idCliente);
         }
 
         public async Task<bool> InsertCliente(Cliente cliente)
         {
-            using (var context = _contextCreator())
-            {
-                await context.Clientes.AddAsync(cliente);
-                return true;
-            }
+            await _unitOfWork.ClienteRepository.Add(cliente);
+            return true;
         }
 
-        public bool UpdateCliente(Cliente cliente)
+        public async Task<bool> UpdateCliente(Cliente cliente)
         {
-            using (var context = _contextCreator())
-            {
-                context.Clientes.Update(cliente);
-                return true;
-            }
+            _unitOfWork.ClienteRepository.Update(cliente);
+            await _unitOfWork.CompleteAsync();
+            return true;
         }
     }
 }

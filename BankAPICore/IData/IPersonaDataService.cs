@@ -1,6 +1,6 @@
 ﻿using BankAPI.Models;
 
-namespace BankAPICore.Data
+namespace BankAPICore.IData
 {
     public interface IPersonaDataService
     {

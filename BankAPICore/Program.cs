@@ -1,5 +1,9 @@
-using BankAPI.DataAccess;
+using BankAPI.DataAccess.Data;
+using BankAPI.DataAccess.IConfiguration;
+using BankAPI.DataAccess.IRepositories;
+using BankAPI.DataAccess.Repositories;
 using BankAPICore.Data;
+using BankAPICore.IData;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +46,13 @@ app.Run();
 
 void ConfigureServices(IServiceCollection services)
 {
+    #region DataServices
     services.AddScoped<IClienteDataService, ClienteDataService>();
     services.AddScoped<IPersonaDataService, PersonaDataService>();
+
+    #endregion
+
+    #region Repositories
+    services.AddScoped<IUnitOfWork, UnitOfWork>();
+    #endregion
 }

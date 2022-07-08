@@ -1,5 +1,6 @@
-﻿using BankAPI.DataAccess;
+﻿using BankAPI.DataAccess.Data;
 using BankAPI.Models;
+using BankAPICore.IData;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankAPICore.Data

@@ -1,5 +1,5 @@
 ﻿using BankAPI.Models;
-using BankAPICore.Data;
+using BankAPICore.IData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankAPICore.Controllers.Clients
@@ -46,7 +46,6 @@ namespace BankAPICore.Controllers.Clients
         {
             try
             {
-
                 var existingPersona = await _personaDataService.GetPersona(clienteNuevo.IdPersona);
                 var insertedPersona = false;
                 if (existingPersona != null &&
@@ -84,7 +83,7 @@ namespace BankAPICore.Controllers.Clients
                    string.IsNullOrEmpty(clienteExists.Contraseña))
                     return NotFound("El cliente no existe.");
 
-                var clienteFinal = _clienteDataService.UpdateCliente(clienteModificado);
+                var clienteFinal = await _clienteDataService.UpdateCliente(clienteModificado);
 
                 return Ok(clienteFinal);
             }
@@ -108,7 +107,7 @@ namespace BankAPICore.Controllers.Clients
                    string.IsNullOrEmpty(clienteExists.Contraseña))
                     return NotFound("El cliente no existe.");
 
-                var clienteFinal = _clienteDataService.DeleteCliente(clienteExists);
+                var clienteFinal = await _clienteDataService.DeleteCliente(clienteExists);
                 return Ok(clienteFinal);
             }
             catch (CustomException customException)
@@ -120,7 +119,5 @@ namespace BankAPICore.Controllers.Clients
                 return StatusCode(501, "Unhandled Exception");
             }
         }
-
-
     }
 }

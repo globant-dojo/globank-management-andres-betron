@@ -1,7 +1,7 @@
 ﻿using BankAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankAPI.DataAccess
+namespace BankAPI.DataAccess.Data
 {
     public class BankDbContext : DbContext
     {
@@ -24,6 +24,6 @@ namespace BankAPI.DataAccess
             modelBuilder.Entity<Movimiento>().ToTable("Movimiento");
         }
 
-        
+
     }
 }
