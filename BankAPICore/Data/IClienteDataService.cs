@@ -4,13 +4,13 @@ namespace BankAPICore.Data
 {
     public interface IClienteDataService
     {
-        Cliente DeleteCliente(int ClienteId);
+        bool DeleteCliente(Cliente Cliente);
 
         Task<Cliente?> GetCliente(int ClienteId);
 
         Task<bool> InsertCliente(Cliente cliente);
 
-        Cliente UpdateCliente(Cliente cliente);
+        bool UpdateCliente(Cliente cliente);
 
     }
 }

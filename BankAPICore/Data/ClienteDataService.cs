@@ -13,9 +13,14 @@ namespace BankAPICore.Data
             _contextCreator = contextCreator;
         }
 
-        public Cliente DeleteCliente(int idCliente)
+        public bool DeleteCliente(Cliente cliente)
         {
-            throw new NotImplementedException();
+            using (var context = _contextCreator())
+            {
+                cliente.Estado = 0;
+                context.Clientes.Update(cliente);
+                return true;
+            }
         }
 
         public async Task<Cliente?> GetCliente(int idCliente)
@@ -35,9 +40,13 @@ namespace BankAPICore.Data
             }
         }
 
-        public Cliente UpdateCliente(Cliente cliente)
+        public bool UpdateCliente(Cliente cliente)
         {
-            throw new NotImplementedException();
+            using (var context = _contextCreator())
+            {
+                context.Clientes.Update(cliente);
+                return true;
+            }
         }
     }
 }

@@ -10,13 +10,15 @@ namespace BankAPI.Tests
 {
     public class ClienteControllerTests
     {
-        //Arrange
+        #region Global arrangementes
         private const int _idCliente = 5;
         private const int _idPersona = 7;
         private readonly Mock<IClienteDataService> _clienteDataServiceMock;
         private readonly Mock<IPersonaDataService> _personaDataServiceMock;
         private Cliente _cliente;
-        private ClienteController _clienteController;
+        private Persona _persona;
+        private ClienteController _clienteController; 
+        #endregion
 
         public ClienteControllerTests()
         {
@@ -30,6 +32,16 @@ namespace BankAPI.Tests
                 Contraseña = "1234",
                 Estado = 1,
                 IdPersona = _idPersona
+            };
+            _persona = new Persona()
+            {
+                IdPersona = _cliente.IdPersona,
+                Direccion = "Avenida Cero",
+                Edad = 20,
+                Genero = "Masculino",
+                Identificacion = "100000",
+                Nombre = "Nombre",
+                Telefono = "00400040"
             };
             _clienteController = new ClienteController(_clienteDataServiceMock.Object,
                 _personaDataServiceMock.Object);
@@ -149,16 +161,7 @@ namespace BankAPI.Tests
                 .ReturnsAsync(true);
 
             _personaDataServiceMock.Setup(x => x.GetPersona(_cliente.IdPersona))
-                .ReturnsAsync(new Persona()
-                {
-                    IdPersona = _cliente.IdPersona,
-                    Direccion = "Avenida Cero",
-                    Edad = 20,
-                    Genero = "Masculino",
-                    Identificacion = "100000",
-                    Nombre = "Nombre",
-                    Telefono = "00400040"
-                });
+                .ReturnsAsync(_persona);
             _personaDataServiceMock.Setup(x => x.UpdatePersona(_cliente.Persona))
                 .Returns(true);
 
@@ -246,6 +249,156 @@ namespace BankAPI.Tests
             result.Should().BeOfType<BadRequestObjectResult>();
             var objectResult = (BadRequestObjectResult)result;
             objectResult.Value.Should().Be("El cliente no puedo ser insertado.");
+        }
+
+        #endregion
+
+        #region Put
+        [Fact]
+        public async Task Put_OnSuccess_ReturnsStatusCode200()
+        {
+            //Arrange
+            _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
+                .ReturnsAsync(_cliente);
+            _clienteDataServiceMock.Setup(x => x.UpdateCliente(_cliente))
+                .Returns(true);
+
+            //Act
+            var result = (OkObjectResult)await _clienteController.Put(_cliente);
+
+            //Assert
+            Assert.Equal(200, result.StatusCode);
+        }
+
+        [Fact]
+        public async Task Put_OnSuccess_InvokesClienteDataServiceOnceForSearchAndOnceForUpdate()
+        {
+            //Arrange
+            _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
+                .ReturnsAsync(_cliente);
+            _clienteDataServiceMock.Setup(x => x.UpdateCliente(_cliente))
+                .Returns(true);
+
+            //Act
+            var result = (OkObjectResult)await _clienteController.Put(_cliente);
+
+            //Assert
+            _clienteDataServiceMock.Verify(
+                service => service.GetCliente(_idCliente),
+                Times.Once());
+            _clienteDataServiceMock.Verify(
+                service => service.UpdateCliente(_cliente),
+                Times.Once());
+        }
+
+        [Fact]
+        public async Task Put_OnSuccess_ReturnsBool()
+        {
+            //Arrange
+            _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
+                .ReturnsAsync(_cliente);
+            _clienteDataServiceMock.Setup(x => x.UpdateCliente(_cliente))
+                .Returns(true);
+
+            //Act
+            var result = await _clienteController.Put(_cliente);
+
+            //Assert
+            result.Should().BeOfType<OkObjectResult>();
+            var objectResult = (OkObjectResult)result;
+            objectResult.Value.Should().BeOfType<bool>();
+        }
+
+        [Fact]
+        public async Task Put_OnClienteNotFound_ReturnsStatusCode404WithMessage()
+        {
+            //Arrange
+            _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
+                .ReturnsAsync(new Cliente());
+
+            //Act
+            var result = await _clienteController.Put(_cliente);
+
+            //Assert
+            result.Should().BeOfType<NotFoundObjectResult>();
+            var objectResult = (NotFoundObjectResult)result;
+            objectResult.Value.Should().Be("El cliente no existe.");
+        }
+
+
+        #endregion
+
+        #region Delete
+        [Fact]
+        public async Task Delete_OnSuccess_ReturnsStatusCode200()
+        {
+            //Arrange
+            _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
+                .ReturnsAsync(_cliente);
+            _clienteDataServiceMock.Setup(x => x.DeleteCliente(_cliente))
+                .Returns(true);
+
+            //Act
+            var result = (OkObjectResult)await _clienteController.Delete(_cliente);
+
+            //Assert
+            result.StatusCode.Should().Be(200);
+        }
+
+        [Fact]
+        public async Task Delete_OnSuccess_InvokesClienteDataServiceOnceForSearchAndOnceForDelete()
+        {
+            //Arrange
+            _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
+                .ReturnsAsync(_cliente);
+            _clienteDataServiceMock.Setup(x => x.DeleteCliente(_cliente))
+                .Returns(true);
+
+            //Act
+            var result = (OkObjectResult)await _clienteController.Delete(_cliente);
+
+            //Assert
+            _clienteDataServiceMock.Verify(
+                service => service.GetCliente(_idCliente),
+                Times.Once());
+            _clienteDataServiceMock.Verify(
+                service => service.DeleteCliente(_cliente),
+                Times.Once());
+        }
+
+        [Fact]
+        public async Task Delete_OnSuccess_ReturnsBool()
+        {
+            //Arrange
+            _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
+                .ReturnsAsync(_cliente);
+            _clienteDataServiceMock.Setup(x => x.DeleteCliente(_cliente))
+                .Returns(true);
+
+            //Act
+            var result = await _clienteController.Delete(_cliente);
+
+            //Assert
+            result.Should().BeOfType<OkObjectResult>();
+            var objectResult = (OkObjectResult)result;
+            objectResult.Value.Should().BeOfType<bool>();
+        }
+
+        [Fact]
+        public async Task Delete_OnClienteNotFound_ReturnsStatusCode404WithMessage()
+        {
+            //Arrange
+            _clienteDataServiceMock.Setup(x => x.GetCliente(_idCliente))
+                .ReturnsAsync(new Cliente());
+
+            //Act
+            var result = await _clienteController.Delete(_cliente);
+
+            //Assert
+            result.Should().BeOfType<NotFoundObjectResult>();
+            var objectResult = (NotFoundObjectResult)result;
+            objectResult.Value.Should().Be("El cliente no existe.");
+
         }
 
         #endregion

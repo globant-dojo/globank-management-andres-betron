@@ -75,14 +75,18 @@ namespace BankAPICore.Controllers.Clients
         }
 
         [HttpPut]
-        public IActionResult Put(Cliente clienteModificado)
+        public async Task<IActionResult> Put(Cliente clienteModificado)
         {
             try
             {
+                var clienteExists = await _clienteDataService.GetCliente(clienteModificado.IdCliente);
+                if (clienteExists == null ||
+                   string.IsNullOrEmpty(clienteExists.Contraseña))
+                    return NotFound("El cliente no existe.");
+
                 var clienteFinal = _clienteDataService.UpdateCliente(clienteModificado);
-                if (clienteFinal == null)
-                    return NotFound();
-                return Ok();
+
+                return Ok(clienteFinal);
             }
             catch (CustomException customException)
             {
@@ -95,15 +99,17 @@ namespace BankAPICore.Controllers.Clients
         }
 
         [HttpDelete]
-        public IActionResult Delete(Cliente clienteEliminado)
+        public async Task<IActionResult> Delete(Cliente clienteEliminado)
         {
             try
             {
-                var clienteFinal = _clienteDataService.UpdateCliente(clienteEliminado);
-                if (clienteFinal == null)
-                    return NotFound();
+                var clienteExists =await  _clienteDataService.GetCliente(clienteEliminado.IdCliente);
+                if (clienteExists == null ||
+                   string.IsNullOrEmpty(clienteExists.Contraseña))
+                    return NotFound("El cliente no existe.");
 
-                return Ok();
+                var clienteFinal = _clienteDataService.DeleteCliente(clienteExists);
+                return Ok(clienteFinal);
             }
             catch (CustomException customException)
             {
