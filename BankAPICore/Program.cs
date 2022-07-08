@@ -49,6 +49,7 @@ void ConfigureServices(IServiceCollection services)
     #region DataServices
     services.AddScoped<IClienteDataService, ClienteDataService>();
     services.AddScoped<IPersonaDataService, PersonaDataService>();
+    services.AddScoped<ICuentaDataService, CuentaDataService>();
 
     #endregion
 

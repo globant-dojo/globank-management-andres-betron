@@ -10,7 +10,7 @@ namespace BankAPI.Models
         public int IdCuenta { get; set; }
         public string TipoCuenta { get; set; }
         public double SaldoInicial { get; set; }
-        public bool Estado { get; set; }
+        public int Estado { get; set; }
         public int IdCliente { get; set; }
         [ForeignKey("IdCliente")]
         public virtual Cliente Cliente { get; set; }
